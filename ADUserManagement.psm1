@@ -32,13 +32,14 @@ function Get-ADUserInfo {
         [switch]$AllProperties
     )
 
-    $ADUser = Get-AdUser $User -Properties * -Server $Server -Credential $Credential
+    $ADUser = Get-ADUser $User -Properties * -Server $Server -Credential $Credential
 
     if ($AllProperties) {
         Write-Host "######################"
         Write-Host "#   All Properties   #"
         Write-Host "######################"
-        $ADUser | Format-List -Property *
+        $ADUser | Format-List *
+        return
     }
     # Password Information
     Write-Host "############################"
@@ -67,9 +68,9 @@ function Get-ADUserInfo {
     Write-Host "######################"
 
     if ($ADUser.Enabled -eq $false) {
-        Write-Host "Account Disabled: No"
-    } elseif ($ADUser.Enabled -eq $true) {
         Write-Host "Account Disabled: Yes*"
+    } elseif ($ADUser.Enabled -eq $true) {
+        Write-Host "Account Disabled: No"
     } else {
         Write-Host "Property: 'Enabled' not found."
     }
